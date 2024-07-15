@@ -16,8 +16,16 @@ crate-type = ["lib"]
 bench = false
 
 [dependencies]
-rosrust = "0.9"
-rosrust_msg = "0.1"
+# rosrust = "0.9"
+# rosrust_msg = "0.1"
 ndarray = "0.13.1"
 ndarray-linalg = { version = "0.12", features = ["netlib"] }
 nalgebra = "0.27.1"
+
+[dependencies.rosrust]
+git = "https://github.com/lucasw/rosrust"
+branch = "noetic_aggregated"
+
+[dependencies.rosrust_msg]
+git = "https://github.com/lucasw/rosrust"
+branch = "noetic_aggregated"
