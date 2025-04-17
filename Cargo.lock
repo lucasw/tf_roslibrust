@@ -1758,7 +1758,7 @@ dependencies = [
 [[package]]
 name = "roslibrust"
 version = "0.12.2"
-source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#6768921adf74cba3bff6f8a30e0e2102518d7407"
+source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#608c347ed09eca25ca921a6cac083860650409a3"
 dependencies = [
  "roslibrust_codegen",
  "roslibrust_codegen_macro",
@@ -1769,7 +1769,7 @@ dependencies = [
 [[package]]
 name = "roslibrust_codegen"
 version = "0.12.0"
-source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#6768921adf74cba3bff6f8a30e0e2102518d7407"
+source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#608c347ed09eca25ca921a6cac083860650409a3"
 dependencies = [
  "lazy_static",
  "log",
@@ -1792,7 +1792,7 @@ dependencies = [
 [[package]]
 name = "roslibrust_codegen_macro"
 version = "0.12.0"
-source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#6768921adf74cba3bff6f8a30e0e2102518d7407"
+source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#608c347ed09eca25ca921a6cac083860650409a3"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1803,7 +1803,7 @@ dependencies = [
 [[package]]
 name = "roslibrust_common"
 version = "0.12.0"
-source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#6768921adf74cba3bff6f8a30e0e2102518d7407"
+source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#608c347ed09eca25ca921a6cac083860650409a3"
 dependencies = [
  "anyhow",
  "futures",
@@ -1827,7 +1827,7 @@ dependencies = [
 [[package]]
 name = "roslibrust_ros1"
 version = "0.12.1"
-source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#6768921adf74cba3bff6f8a30e0e2102518d7407"
+source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#608c347ed09eca25ca921a6cac083860650409a3"
 dependencies = [
  "abort-on-drop",
  "anyhow",
