@@ -207,7 +207,7 @@ impl TfIndividualTransformChain {
         let desired_duration = duration_to_f64(time - time1);
         // println!("{time1} - {time} - {time2} - {total_duration} {desired_duration}");
         let weight = 1.0 - desired_duration / total_duration;
-        let final_tf = interpolate(tf1.transform, tf2.transform, weight);
+        let final_tf = interpolate(&tf1.transform, &tf2.transform, weight);
         let ros_msg = to_transform_stamped(final_tf, header.frame_id, child_frame_id, stamp);
         Ok(ros_msg)
     }

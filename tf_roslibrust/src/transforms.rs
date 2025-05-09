@@ -76,57 +76,48 @@ pub fn chain_transforms(transforms: &[TransformStamped]) -> Transform {
 }
 
 /// 1.0 is all t1, and 0.0 is all t2
-pub fn interpolate(t1: Transform, t2: Transform, weight: f64) -> Transform {
-    let r1 = nalgebra::geometry::Quaternion::new(
-        t1.rotation.w,
-        t1.rotation.x,
-        t1.rotation.y,
-        t1.rotation.z,
-    );
-    let r2 = nalgebra::geometry::Quaternion::new(
-        t2.rotation.w,
-        t2.rotation.x,
-        t2.rotation.y,
-        t2.rotation.z,
-    );
-    let r1 = UnitQuaternion::from_quaternion(r1);
-    let r2 = UnitQuaternion::from_quaternion(r2);
-    let res = r1.try_slerp(&r2, weight, 1e-9);
-    match res {
-        Some(qt) => Transform {
-            translation: Vector3 {
-                x: t1.translation.x * weight + t2.translation.x * (1.0 - weight),
-                y: t1.translation.y * weight + t2.translation.y * (1.0 - weight),
-                z: t1.translation.z * weight + t2.translation.z * (1.0 - weight),
-            },
-            rotation: Quaternion {
+pub fn interpolate(t1: &Transform, t2: &Transform, weight: f64) -> Transform {
+    let rotation = {
+        let r1 = nalgebra::geometry::Quaternion::new(
+            t1.rotation.w,
+            t1.rotation.x,
+            t1.rotation.y,
+            t1.rotation.z,
+        );
+        let r2 = nalgebra::geometry::Quaternion::new(
+            t2.rotation.w,
+            t2.rotation.x,
+            t2.rotation.y,
+            t2.rotation.z,
+        );
+
+        let r1 = UnitQuaternion::from_quaternion(r1);
+        let r2 = UnitQuaternion::from_quaternion(r2);
+        let res = r1.try_slerp(&r2, weight, 1e-5);
+        match res {
+            Some(qt) => Quaternion {
                 x: qt.coords[0],
                 y: qt.coords[1],
                 z: qt.coords[2],
                 w: qt.coords[3],
             },
-        },
-        None => {
-            if weight > 0.5 {
-                Transform {
-                    translation: Vector3 {
-                        x: t1.translation.x * weight + t2.translation.x * (1.0 - weight),
-                        y: t1.translation.y * weight + t2.translation.y * (1.0 - weight),
-                        z: t1.translation.z * weight + t2.translation.z * (1.0 - weight),
-                    },
-                    rotation: t1.rotation,
-                }
-            } else {
-                Transform {
-                    translation: Vector3 {
-                        x: t1.translation.x * weight + t2.translation.x * (1.0 - weight),
-                        y: t1.translation.y * weight + t2.translation.y * (1.0 - weight),
-                        z: t1.translation.z * weight + t2.translation.z * (1.0 - weight),
-                    },
-                    rotation: t2.rotation,
+            None => {
+                if weight < 0.5 {
+                    t1.rotation.clone()
+                } else {
+                    t2.rotation.clone()
                 }
             }
         }
+    };
+
+    Transform {
+        translation: Vector3 {
+            x: t1.translation.x * weight + t2.translation.x * (1.0 - weight),
+            y: t1.translation.y * weight + t2.translation.y * (1.0 - weight),
+            z: t1.translation.z * weight + t2.translation.z * (1.0 - weight),
+        },
+        rotation,
     }
 }
 
@@ -210,9 +201,9 @@ mod test {
             },
             rotation: Quaternion {
                 x: 0f64,
-                y: 0f64,
+                y: 1f64,
                 z: 0f64,
-                w: 1f64,
+                w: 0f64,
             },
         };
         let expected = Transform {
@@ -223,11 +214,27 @@ mod test {
             },
             rotation: Quaternion {
                 x: 0f64,
-                y: 0f64,
+                y: 0.7071067811865475,
                 z: 0f64,
-                w: 1f64,
+                w: 0.7071067811865475,
             },
         };
-        assert_eq!(interpolate(tf1, tf2, 0.5), expected);
+        assert_eq!(interpolate(&tf1, &tf2, 0.5), expected);
+
+        let t0 = std::time::Instant::now();
+        let num = 200;
+        for i in 0..num {
+            let fr = i as f64 / num as f64;
+            interpolate(&tf1, &tf2, fr);
+        }
+        let elapsed_ns = t0.elapsed().as_nanos() as f64;
+        let ns_per_lookup = elapsed_ns / num as f64;
+        println!(
+            "{num} interpolates elapsed {:.1}ms, {:.3} ms/lookup",
+            elapsed_ns / 1000.0,
+            ns_per_lookup / 1000.0
+        );
+        // make sure running cargo test --release
+        assert!(ns_per_lookup < 50.0);
     }
 }
