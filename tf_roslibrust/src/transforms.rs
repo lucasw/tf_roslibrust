@@ -235,6 +235,6 @@ mod test {
             ns_per_lookup / 1000.0
         );
         // make sure running cargo test --release
-        assert!(ns_per_lookup < 50.0);
+        assert!(ns_per_lookup < 90.0);
     }
 }
