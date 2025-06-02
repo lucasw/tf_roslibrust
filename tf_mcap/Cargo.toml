@@ -34,3 +34,7 @@ path = "../tf_roslibrust"
 [[bin]]
 name = "tf_mcap_tree"
 path = "src/bin/mcap_tree.rs"
+
+[[bin]]
+name = "tf_mcap_lookup"
+path = "src/bin/lookup.rs"
