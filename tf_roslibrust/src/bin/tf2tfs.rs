@@ -88,7 +88,7 @@ async fn main() -> Result<(), anyhow::Error> {
                 break;
             }
 
-            let (tfm, tf_errors) = tf2tf_to_tfm(&tf_listener, &tf2tf_config);
+            let (tfm, tf_errors) = tf2tf_to_tfm(&tf_listener, &tf2tf_config, None);
             // TODO(lucasw) look at the tf_errors, occasionally log some
             if !tf_errors.is_empty() {
                 if error_count == 0 {

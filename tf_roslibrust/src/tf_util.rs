@@ -236,12 +236,13 @@ pub fn get_tf2tf_from_toml(filename: &str) -> Result<Vec<Tf2TfConfig>, anyhow::E
 pub fn tf2tf_to_tfm(
     tf_lookup: &impl LookupTransform,
     tf2tf_config: &Vec<Tf2TfConfig>,
+    stamp: Option<Time>,
 ) -> (tf2_msgs::TFMessage, Vec<TfError>) {
     let mut tfm = tf2_msgs::TFMessage::default();
     let mut tf_errors = Vec::new();
     for tf2tf in tf2tf_config {
         // get the most recent parent child transform, zero out x,y,z and/or rotation
-        match tf_lookup.lookup_transform(&tf2tf.lookup_parent, &tf2tf.lookup_child, None) {
+        match tf_lookup.lookup_transform(&tf2tf.lookup_parent, &tf2tf.lookup_child, stamp.clone()) {
             Err(error) => {
                 // if rv is error, continue on and get as many transforms as possible...
                 tf_errors.push(error);
