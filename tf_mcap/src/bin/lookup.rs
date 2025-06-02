@@ -1,9 +1,10 @@
 /*!
-Copyright 2024 Lucas WAlter
+Copyright 2024 Lucas Walter
 BSD 3-Clause
 
 Look up a tf parent-child transform in a set of input mcaps, print transform to stdout at specified interval
-TODO(lucasw) support multiple pairs of lookups
+
+See tf2tfs.rs to make multiple lookups
 */
 
 use clap::{arg, command};
@@ -19,12 +20,6 @@ fn main() -> Result<(), anyhow::Error> {
 
     let args = std::env::args();
 
-    // TODO(lucasw) write out a toml of parent child relationships
-    // like the transforms node does?  It could be a similar format,
-    // static transforms would be the same but everything else could show
-    // a min/max value for each xyz rpy value.
-    // Also like the mcap_tools mcap_rates tool it could look for gaps in the
-    // any parent-child relationship, have stats about gaps between updates
     let matches = command!()
         .arg(
             arg!(
