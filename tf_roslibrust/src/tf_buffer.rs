@@ -19,6 +19,7 @@ pub struct TfBuffer {
     child_transform_index: HashMap<String, HashSet<String>>,
     transform_data: HashMap<TfGraphNode, TfIndividualTransformChain>,
     cache_duration: TimeDelta,
+    latest_time: TimeDelta,
 }
 
 impl Default for TfBuffer {
@@ -40,7 +41,20 @@ impl TfBuffer {
             child_transform_index: HashMap::new(),
             transform_data: HashMap::new(),
             cache_duration,
+            latest_time: TimeDelta::new(0, 0).unwrap(),
         }
+    }
+
+    pub fn start_time(&self) -> TimeDelta {
+        // TODO(lucasw) this may not be correct if the buffer hasn't filled up,
+        // need to track oldest time too but update when it is further back than this?
+        self.latest_time - self.cache_duration
+    }
+
+    pub fn end_time(&self) -> TimeDelta {
+        // TODO(lucasw) this may not be correct if the buffer hasn't filled up,
+        // need to track oldest time too but update when it is further back than this?
+        self.latest_time
     }
 
     pub fn handle_incoming_transforms(
@@ -65,6 +79,10 @@ impl TfBuffer {
         // TODO(lucasw) if this child has a different parent should error or warn
         let parent = &transform.header.frame_id;
         let child = &transform.child_frame_id;
+
+        self.latest_time = self
+            .latest_time
+            .max(stamp_to_duration(&transform.header.stamp));
 
         let existing_parent = self.parent_transform_index.get(child);
         match existing_parent {
