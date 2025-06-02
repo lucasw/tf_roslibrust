@@ -81,9 +81,13 @@ fn main() -> Result<(), anyhow::Error> {
     let start_sec = duration_to_f64(tf_buffer.start_time());
     let end_sec = duration_to_f64(tf_buffer.end_time());
     let steps = ((end_sec - start_sec) / resolution) as usize;
+    println!("doing {steps} lookups");
 
     let mut count = 0;
     for ind in 0..steps {
+        if ind % 1000 == 0 {
+            println!("lookup {ind} / {steps}");
+        }
         let offset_sec = ind as f64 * resolution;
         let stamp = tf_util::f64_to_stamp(start_sec + offset_sec);
         let (tfm, _tf_errors) = tf2tf_to_tfm(&tf_buffer, &tf2tf_config, Some(stamp.clone()));
