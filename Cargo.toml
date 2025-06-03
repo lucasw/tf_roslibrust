@@ -21,7 +21,7 @@ categories = ["science::robotics"]
 anyhow = "1.0.92"
 clap = { version = "4.5.16", features = ["cargo"] }
 log = "0.4.22"
-nalgebra = "0.30"
+nalgebra = "0.33.2"
 serde = { version = "1.0", features = ["derive"] }
 serde-big-array = "0.5.1"
 serde_derive = "1.0.210"

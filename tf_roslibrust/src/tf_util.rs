@@ -68,16 +68,15 @@ struct TransformRaw {
     yaw: Option<f64>,
 }
 
-pub fn quat_msg_to_rpy(quat_msg: geometry_msgs::Quaternion) -> (f64, f64, f64) {
-    let quat = nalgebra::UnitQuaternion::new_normalize(nalgebra::geometry::Quaternion::new(
+pub fn quat_msg_to_unit_quat(quat_msg: geometry_msgs::Quaternion) -> nalgebra::UnitQuaternion<f64> {
+    nalgebra::UnitQuaternion::new_normalize(nalgebra::geometry::Quaternion::new(
         quat_msg.w, quat_msg.x, quat_msg.y, quat_msg.z,
-    ));
-    let (roll, pitch, yaw) = quat.euler_angles();
-    (roll, pitch, yaw)
+    ))
 }
 
-pub fn rpy_to_quat_msg(roll: f64, pitch: f64, yaw: f64) -> geometry_msgs::Quaternion {
-    let unit_quat = nalgebra::UnitQuaternion::from_euler_angles(roll, pitch, yaw);
+pub fn unit_quat_to_quat_msg(
+    unit_quat: nalgebra::UnitQuaternion<f64>,
+) -> geometry_msgs::Quaternion {
     let quat = unit_quat.quaternion();
     geometry_msgs::Quaternion {
         x: quat.coords[0],
@@ -85,6 +84,17 @@ pub fn rpy_to_quat_msg(roll: f64, pitch: f64, yaw: f64) -> geometry_msgs::Quater
         z: quat.coords[2],
         w: quat.coords[3],
     }
+}
+
+pub fn quat_msg_to_rpy(quat_msg: geometry_msgs::Quaternion) -> (f64, f64, f64) {
+    let quat = quat_msg_to_unit_quat(quat_msg);
+    let (roll, pitch, yaw) = quat.euler_angles();
+    (roll, pitch, yaw)
+}
+
+pub fn rpy_to_quat_msg(roll: f64, pitch: f64, yaw: f64) -> geometry_msgs::Quaternion {
+    let unit_quat = nalgebra::UnitQuaternion::from_euler_angles(roll, pitch, yaw);
+    unit_quat_to_quat_msg(unit_quat)
 }
 
 impl TransformRaw {
@@ -215,6 +225,7 @@ pub struct Tf2TfConfig {
     fixed_roll: Option<f64>,
     fixed_pitch: Option<f64>,
     fixed_yaw: Option<f64>,
+    align_x_axis: Option<bool>,
 }
 
 pub fn get_tf2tf_from_toml(filename: &str) -> Result<Vec<Tf2TfConfig>, anyhow::Error> {
@@ -261,7 +272,40 @@ pub fn tf2tf_to_tfm(
                     tfs.transform.translation.z = z;
                 }
 
-                let (mut roll, mut pitch, mut yaw) = quat_msg_to_rpy(tfs.transform.rotation);
+                let mut quat_msg = tfs.transform.rotation;
+
+                // TODO(lucasw) likely this isn't compatible with any of the fixed_roll/pitch/yaw
+                if let Some(align_x_axis) = tf2tf.align_x_axis {
+                    if align_x_axis {
+                        // TODO(lucasw) try out face_towards(), though that is working on z axis
+                        // not x axis
+                        let quat = quat_msg_to_unit_quat(quat_msg);
+                        let rot3 = nalgebra::Rotation3::from(quat);
+                        let rot_mat = rot3.matrix();
+                        // TODO(lucasw) or col?
+                        let z_axis_raw = rot_mat.row(2);
+                        let z_axis =
+                            nalgebra::Vector3::new(z_axis_raw[0], z_axis_raw[1], z_axis_raw[2]);
+                        let mut y_axis = nalgebra::Vector3::new(0.0, 1.0, 0.0);
+                        // TODO(lucasw) if z_axis is 1, 0, 0 this won't work
+                        let mut x_axis = y_axis.cross(&z_axis);
+                        x_axis = x_axis.normalize();
+                        let flip = true;
+                        if flip && x_axis[0] < 0.0 {
+                            // TODO(lucasw) this will be less smooth but closer to original intent
+                            x_axis *= -1.0;
+                        }
+                        // the x_axis won't be exactly 1, 0, 0 but this is as close as possible
+                        y_axis = z_axis.cross(&x_axis);
+
+                        let basis = [x_axis, y_axis, z_axis];
+                        let rot_mat = nalgebra::Rotation3::from_basis_unchecked(&basis);
+                        let quat = nalgebra::UnitQuaternion::from_rotation_matrix(&rot_mat);
+                        quat_msg = unit_quat_to_quat_msg(quat);
+                    }
+                }
+
+                let (mut roll, mut pitch, mut yaw) = quat_msg_to_rpy(quat_msg);
                 if let Some(fixed_roll) = tf2tf.fixed_roll {
                     roll = fixed_roll;
                 }
