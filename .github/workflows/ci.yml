@@ -58,6 +58,7 @@ jobs:
           sudo apt-get install -yqq libsensor-msgs-dev python3-sensor-msgs ros-sensor-msgs
           sudo apt-get install -yqq libstd-msgs-dev python3-std-msgs ros-std-msgs
           sudo apt-get install -yqq libstd-srvs-dev python3-std-srvs ros-std-srvs
+          sudo apt-get install -yqq libnav-msgs-dev python3-nav-msgs ros-nav-msgs
           sudo apt-get install -yqq libtf2-msgs-dev python3-tf2-msgs ros-tf2-msgs
           rospack find geometry_msgs
           echo "ROS_PACKAGE_PATH=`rospack find geometry_msgs`:`rospack find nav_msgs`:`rospack find tf2_msgs`:`rospack find sensor_msgs`:`rospack find std_msgs`:`rospack find actionlib_msgs`" >> $GITHUB_ENV
