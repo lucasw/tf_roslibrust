@@ -24,14 +24,17 @@ simple_logger = "5.0.0"
 # not using the same roslibrust_util avoids issues with mcap_tools also depending on roslibrust_util
 # path = "../roslibrust_util"
 git = "https://github.com/lucasw/tf_roslibrust"
+version = "0.16"
 
 [dependencies.tf_roslibrust]
 # path = "../tf_roslibrust"
 git = "https://github.com/lucasw/tf_roslibrust"
+version = "0.16"
 
 [dependencies.mcap_tools]
 git = "https://github.com/lucasw/mcap_tools"
-branch = "tf_static"
+# branch = "tf_static"
+version = "0.16"
 
 [[bin]]
 name = "tf_mcap_tree"

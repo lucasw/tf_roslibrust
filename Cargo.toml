@@ -6,6 +6,7 @@ members = [ "launcher", "roslibrust_key_to_joy", "roslibrust_util", "tf_mcap",
 
 [workspace.package]
 edition = "2021"
+version = "0.16.0"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/lucasw/tf_roslibrust"
 authors = [
@@ -33,9 +34,9 @@ toml = "0.8.19"
 git = "https://github.com/lucasw/roslibrust"
 branch = "get_rx_msg_def_v0_16"
 # path = "../../roslibrust/roslibrust"
-version="0.16"
+version = "0.16"
 features = ["macro", "ros1"]
 
 # [workspace.dependencies.roslibrust_codegen]
 # git = "https://github.com/lucasw/roslibrust"
-# branch = "get_rx_msg_def_v0_12"
+# branch = "get_rx_msg_def_v0_16"

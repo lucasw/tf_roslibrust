@@ -1,6 +1,6 @@
 [package]
 name = "roslibrust_util"
-version = "0.6.0"
+version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
