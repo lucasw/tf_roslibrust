@@ -1211,8 +1211,8 @@ dependencies = [
 
 [[package]]
 name = "mcap_tools"
-version = "0.5.0"
-source = "git+https://github.com/lucasw/mcap_tools?branch=tf_static#043f54075d74ed3b29a03f220b437d50c70eb22e"
+version = "0.16.0"
+source = "git+https://github.com/lucasw/mcap_tools#333a46d7c053ad34063c1b7647b6a5a95350a8d5"
 dependencies = [
  "anyhow",
  "camino",
@@ -1227,13 +1227,13 @@ dependencies = [
  "memmap",
  "nalgebra",
  "regex",
- "roslibrust 0.12.2",
- "roslibrust_util 0.2.0",
+ "roslibrust",
+ "roslibrust_util 0.16.0 (git+https://github.com/lucasw/tf_roslibrust)",
  "serde",
  "serde_derive",
  "serde_rosmsg",
  "simple_logger",
- "tf_roslibrust 0.2.5",
+ "tf_roslibrust 0.16.0 (git+https://github.com/lucasw/tf_roslibrust)",
  "thiserror 1.0.69",
  "tokio",
  "toml",
@@ -1691,47 +1691,13 @@ dependencies = [
 
 [[package]]
 name = "roslibrust"
-version = "0.12.2"
-source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#59f36cc21c6d560b8f06e031fc07b160c3f5419b"
-dependencies = [
- "roslibrust_codegen 0.12.0",
- "roslibrust_codegen_macro 0.12.0",
- "roslibrust_common 0.12.0",
- "roslibrust_ros1 0.12.1",
-]
-
-[[package]]
-name = "roslibrust"
 version = "0.16.0"
 source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_16#00c520027f364b9152403b274528bdd34e1b3e68"
 dependencies = [
- "roslibrust_codegen 0.16.0",
- "roslibrust_codegen_macro 0.16.0",
- "roslibrust_common 0.16.0",
- "roslibrust_ros1 0.16.0",
-]
-
-[[package]]
-name = "roslibrust_codegen"
-version = "0.12.0"
-source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#59f36cc21c6d560b8f06e031fc07b160c3f5419b"
-dependencies = [
- "lazy_static",
- "log",
- "md5",
- "proc-macro2",
- "quote",
- "roslibrust_common 0.12.0",
- "serde",
- "serde-big-array",
- "serde_bytes",
- "serde_json",
- "simple-error",
- "smart-default",
- "syn 1.0.109",
- "tokio",
- "walkdir",
- "xml-rs",
+ "roslibrust_codegen",
+ "roslibrust_codegen_macro",
+ "roslibrust_common",
+ "roslibrust_ros1",
 ]
 
 [[package]]
@@ -1744,7 +1710,7 @@ dependencies = [
  "md5",
  "proc-macro2",
  "quote",
- "roslibrust_common 0.16.0",
+ "roslibrust_common",
  "serde",
  "serde-big-array",
  "serde_bytes",
@@ -1759,36 +1725,13 @@ dependencies = [
 
 [[package]]
 name = "roslibrust_codegen_macro"
-version = "0.12.0"
-source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#59f36cc21c6d560b8f06e031fc07b160c3f5419b"
-dependencies = [
- "proc-macro2",
- "quote",
- "roslibrust_codegen 0.12.0",
- "syn 1.0.109",
-]
-
-[[package]]
-name = "roslibrust_codegen_macro"
 version = "0.16.0"
 source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_16#00c520027f364b9152403b274528bdd34e1b3e68"
 dependencies = [
  "proc-macro2",
  "quote",
- "roslibrust_codegen 0.16.0",
+ "roslibrust_codegen",
  "syn 1.0.109",
-]
-
-[[package]]
-name = "roslibrust_common"
-version = "0.12.0"
-source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#59f36cc21c6d560b8f06e031fc07b160c3f5419b"
-dependencies = [
- "anyhow",
- "futures",
- "md5",
- "serde",
- "thiserror 2.0.17",
 ]
 
 [[package]]
@@ -1811,31 +1754,8 @@ dependencies = [
  "anyhow",
  "clap",
  "crossterm",
- "roslibrust 0.16.0",
+ "roslibrust",
  "roslibrust_util 0.16.0",
- "tokio",
-]
-
-[[package]]
-name = "roslibrust_ros1"
-version = "0.12.1"
-source = "git+https://github.com/lucasw/roslibrust?branch=get_rx_msg_def_v0_12#59f36cc21c6d560b8f06e031fc07b160c3f5419b"
-dependencies = [
- "abort-on-drop",
- "anyhow",
- "byteorder",
- "gethostname",
- "hyper",
- "lazy_static",
- "log",
- "regex",
- "reqwest",
- "roslibrust_common 0.12.0",
- "roslibrust_serde_rosmsg",
- "serde",
- "serde_xmlrpc",
- "test-log",
- "thiserror 2.0.17",
  "tokio",
 ]
 
@@ -1853,7 +1773,7 @@ dependencies = [
  "log",
  "regex",
  "reqwest",
- "roslibrust_common 0.16.0",
+ "roslibrust_common",
  "roslibrust_serde_rosmsg",
  "serde",
  "serde_xmlrpc",
@@ -1875,14 +1795,13 @@ dependencies = [
 
 [[package]]
 name = "roslibrust_util"
-version = "0.2.0"
-source = "git+https://github.com/lucasw/tf_roslibrust#9428a455dad7d96fd4e1cfc3836a94b0dc9b2637"
+version = "0.16.0"
 dependencies = [
  "anyhow",
  "camino",
  "log",
  "memmap",
- "roslibrust 0.12.2",
+ "roslibrust",
  "serde",
  "serde-big-array",
  "serde_derive",
@@ -1896,12 +1815,13 @@ dependencies = [
 [[package]]
 name = "roslibrust_util"
 version = "0.16.0"
+source = "git+https://github.com/lucasw/tf_roslibrust#e1862c6201cd7284c10988c7801e31feeb25675a"
 dependencies = [
  "anyhow",
  "camino",
  "log",
  "memmap",
- "roslibrust 0.16.0",
+ "roslibrust",
  "serde",
  "serde-big-array",
  "serde_derive",
@@ -2410,26 +2330,25 @@ dependencies = [
  "mcap",
  "mcap_tools",
  "nalgebra",
- "roslibrust 0.16.0",
- "roslibrust_util 0.2.0",
+ "roslibrust",
+ "roslibrust_util 0.16.0 (git+https://github.com/lucasw/tf_roslibrust)",
  "serde_rosmsg",
  "simple-log",
  "simple_logger",
- "tf_roslibrust 0.2.5",
+ "tf_roslibrust 0.16.0 (git+https://github.com/lucasw/tf_roslibrust)",
 ]
 
 [[package]]
 name = "tf_roslibrust"
-version = "0.2.5"
-source = "git+https://github.com/lucasw/tf_roslibrust#9428a455dad7d96fd4e1cfc3836a94b0dc9b2637"
+version = "0.16.0"
 dependencies = [
  "anyhow",
  "chrono",
  "clap",
  "log",
  "nalgebra",
- "roslibrust 0.12.2",
- "roslibrust_util 0.2.0",
+ "roslibrust",
+ "roslibrust_util 0.16.0",
  "serde",
  "serde-big-array",
  "serde_derive",
@@ -2443,14 +2362,15 @@ dependencies = [
 [[package]]
 name = "tf_roslibrust"
 version = "0.16.0"
+source = "git+https://github.com/lucasw/tf_roslibrust#e1862c6201cd7284c10988c7801e31feeb25675a"
 dependencies = [
  "anyhow",
  "chrono",
  "clap",
  "log",
  "nalgebra",
- "roslibrust 0.16.0",
- "roslibrust_util 0.16.0",
+ "roslibrust",
+ "roslibrust_util 0.16.0 (git+https://github.com/lucasw/tf_roslibrust)",
  "serde",
  "serde-big-array",
  "serde_derive",
