@@ -50,6 +50,19 @@ pub fn get_params_remaps(
     params: &mut HashMap<String, String>,
     remaps: &mut HashMap<String, String>,
 ) -> (String, String, Vec<String>) {
+    let args = std::env::args();
+    let mut args2 = Vec::new();
+    for arg in args {
+        args2.push(arg);
+    }
+    get_params_remaps_args(params, remaps, args2)
+}
+
+pub fn get_params_remaps_args(
+    params: &mut HashMap<String, String>,
+    remaps: &mut HashMap<String, String>,
+    args: Vec<String>,
+) -> (String, String, Vec<String>) {
     // TODO(lucasw) generate a unique node name
     // let _ = params.try_insert("_name".to_string(), "node_tbd".to_string());
     if !params.contains_key("_name") {
@@ -62,8 +75,6 @@ pub fn get_params_remaps(
     }
     params.insert("_ns".to_string(), "".to_string());
 
-    // TODO(lucasw) can an existing rust arg handling library handle the ':=' ros cli args?
-    let args = std::env::args();
     let mut args2 = Vec::new();
     for arg in args {
         let key_val: Vec<&str> = arg.split(":=").collect();
