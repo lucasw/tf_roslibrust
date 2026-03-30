@@ -1,3 +1,4 @@
+use chrono::TimeDelta;
 use crate::{tf_buffer::TfBuffer, tf_error::TfError};
 use roslibrust_util::{geometry_msgs, tf2_msgs};
 
@@ -33,9 +34,13 @@ pub struct TfListener {
 }
 
 impl TfListener {
-    /// Create a new TfListener
     pub async fn new(nh: &NodeHandle) -> Self {
-        let buffer = Arc::new(RwLock::new(TfBuffer::new()));
+        Self::new_with_duration(nh, TimeDelta::new(10, 0).unwrap()).await
+    }
+
+    /// Create a new TfListener
+    pub async fn new_with_duration(nh: &NodeHandle, cache_duration: TimeDelta) -> Self {
+        let buffer = Arc::new(RwLock::new(TfBuffer::new_with_duration(cache_duration)));
 
         let (static_tfm_sender, tfm_receiver) = mpsc::sync_channel(4000);
 

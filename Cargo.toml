@@ -6,7 +6,7 @@ members = [ "launcher", "roslibrust_key_to_joy", "roslibrust_util", "tf_mcap",
 
 [workspace.package]
 edition = "2021"
-version = "0.16.1"
+version = "0.16.2"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/lucasw/tf_roslibrust"
 authors = [

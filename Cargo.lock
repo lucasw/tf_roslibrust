@@ -1056,7 +1056,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "futures",
- "roslibrust_util 0.16.1",
+ "roslibrust_util 0.16.2",
  "serde",
  "serde-big-array",
  "serde_derive",
@@ -1755,7 +1755,7 @@ dependencies = [
  "clap",
  "crossterm",
  "roslibrust",
- "roslibrust_util 0.16.1",
+ "roslibrust_util 0.16.2",
  "tokio",
 ]
 
@@ -1815,7 +1815,7 @@ dependencies = [
 
 [[package]]
 name = "roslibrust_util"
-version = "0.16.1"
+version = "0.16.2"
 dependencies = [
  "anyhow",
  "camino",
@@ -2362,7 +2362,7 @@ dependencies = [
 
 [[package]]
 name = "tf_roslibrust"
-version = "0.16.1"
+version = "0.16.2"
 dependencies = [
  "anyhow",
  "chrono",
@@ -2370,7 +2370,7 @@ dependencies = [
  "log",
  "nalgebra",
  "roslibrust",
- "roslibrust_util 0.16.1",
+ "roslibrust_util 0.16.2",
  "serde",
  "serde-big-array",
  "serde_derive",
